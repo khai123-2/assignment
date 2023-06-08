@@ -1,0 +1,535 @@
+openapi: 3.0.0
+info:
+  title: Swagger Company - OpenAPI 3.0
+  version: 1.0.0
+  description: A sample API
+servers:
+  - url: http://localhost:3000/api/
+paths:
+  /users/register:
+    post:
+      tags:
+        - User
+      description: Add a new user
+      summary: Add a new user
+      requestBody:
+        description: Add a new user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: The created user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+        "404":
+          description: employee not found
+  /users/login:
+    post:
+      tags:
+        - User
+      summary: Logs user into the system
+      description: ""
+      requestBody:
+        description: Login into the system
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginUser"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginUserRes"
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+        "404":
+          description: user not found
+  /employees:
+    get:
+      tags:
+        - Employee
+      summary: Get all employees
+      description: This can only be done by the logged in user (President,Manager,Leader).
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Employee"
+        "401":
+          description: Unauthorized
+      security:
+        - bearer_auth: []
+    post:
+      tags:
+        - Employee
+      description: This can only be done by the logged in user (President,Manager).
+      summary: Add a new employee
+      requestBody:
+        description: Add a new employee
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeesReqBody"
+      responses:
+        "200":
+          description: The created employee
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Employee"
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      security:
+        - bearer_auth: []
+  /employees/{employeeId}:
+    get:
+      tags:
+        - Employee
+      summary: Get employee by Id
+      description: This can only be done by the logged in user (President,Manager,Leader).
+      parameters:
+        - name: employeeId
+          in: path
+          description: ID of employee to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Employee"
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+        "404":
+          description: Employee not found
+      security:
+        - bearer_auth: []
+    put:
+      tags:
+        - Employee
+      description: This can only be done by the logged in user (President,Manager).
+      summary: Update an employee
+      parameters:
+        - name: employeeId
+          in: path
+          description: ID of employee to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an employee
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeesReqBody"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Employee"
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+        "404":
+          description: Employee not found
+      security:
+        - bearer_auth: []
+    delete:
+      tags:
+        - Employee
+      description: This can only be done by the logged in user (President).
+      summary: Delete an employee
+      parameters:
+        - name: employeeId
+          in: path
+          description: ID of employee to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+        "400":
+          description: Invalid input
+        "404":
+          description: Employee not found
+      security:
+        - bearer_auth: []
+  /customers:
+    get:
+      tags:
+        - Customer
+      summary: Get all customers
+      description: This can only be done by the logged in user (President,Manager,Leader,Staff).
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Customer"
+        "401":
+          description: Unauthorized
+      security:
+        - bearer_auth: []
+    post:
+      tags:
+        - Customer
+      description: This can only be done by the logged in user (President,Manager,Leader,Staff).
+      summary: Add a new customer
+      requestBody:
+        description: Add a new customer
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerReqBody"
+      responses:
+        "200":
+          description: The created customer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      security:
+        - bearer_auth: []
+  /customers/{customerId}:
+    get:
+      tags:
+        - Customer
+      summary: Get customer by Id
+      description: This can only be done by the logged in user (President,Manager,Leader,Staff).
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of customer to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+        "404":
+          description: Customer not found
+      security:
+        - bearer_auth: []
+    put:
+      tags:
+        - Customer
+      description: This can only be done by the logged in user (President,Manager,Leader).
+      summary: Update a customer
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of customer to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update a customer
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerReqBody"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+        "404":
+          description: Customer not found
+      security:
+        - bearer_auth: []
+    delete:
+      tags:
+        - Customer
+      description: This can only be done by the logged in user (President,Manager,Leader).
+      summary: Delete a customer
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of customer to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+        "400":
+          description: Invalid input
+        "404":
+          description: Customer not found
+      security:
+        - bearer_auth: []
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          example: hoangthai123
+        password:
+          type: string
+          example: 123456
+        employeeNumber:
+          type: integer
+          format: int64
+          example: 8
+    LoginUser:
+      type: object
+      properties:
+        username:
+          type: string
+          example: hoangminh123
+        password:
+          type: string
+          example: 1235456
+    LoginUserRes:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Login succeeded
+        username:
+          type: string
+          example: hoangminh123
+        accessToken:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InVzZXJuYW1lIjoiaG9hbmdtaW5oMTIzIn0sImlhdCI6MTY4NTY3OTE4NCwiZXhwIjoxNjg1NjgwOTg0fQ.gHVcbDsl6nuFjrtUCc3Do9boQPXZaCcDzR-fKsx7sxU
+    Employee:
+      type: object
+      properties:
+        employeeNumber:
+          type: integer
+          format: int64
+          example: 1
+        lastName:
+          type: string
+          example: Khanh
+        firstName:
+          type: string
+          example: Nguyen Van
+        extension:
+          type: string
+          example: c123
+        email:
+          type: string
+          example: vankhanh@gmail.com
+        officeCode:
+          type: string
+          example: 124
+        reportsTo:
+          type: string
+          example: null
+        jobTitle:
+          type: string
+          example: President
+        roleId:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          example: 2023-05-31T03:14:07.000
+        updatedAt:
+          type: string
+          example: 2023-05-31T07:31:39.000
+    EmployeesReqBody:
+      type: object
+      properties:
+        employeeNumber:
+          type: integer
+          format: int64
+          example: 1
+        lastName:
+          type: string
+          example: Khanh
+        firstName:
+          type: string
+          example: Nguyen Van
+        extension:
+          type: string
+          example: c123
+        email:
+          type: string
+          example: vankhanh@gmail.com
+        officeCode:
+          type: string
+          example: 124
+        reportsTo:
+          type: string
+          example: null
+        jobTitle:
+          type: string
+          example: President
+        roleId:
+          type: integer
+          example: 1
+    Customer:
+      type: object
+      properties:
+        customerNumber:
+          type: integer
+          format: int64
+          example: 1
+        customerName:
+          type: string
+          example: Minh Anh
+        contactLastName:
+          type: string
+          example: Nguyen Hoang
+        contactFirstName:
+          type: string
+          example: Minh Anh
+        phone:
+          type: string
+          example: "085339987812"
+        addressLine1:
+          type: string
+          example: Kim Chung, Hoai Duc , Ha Noi
+        addressLine2:
+          type: string
+          example: null
+        city:
+          type: string
+          example: Ha Noi
+        state:
+          type: string
+          example: null
+        postalCode:
+          type: string
+          example: null
+        country:
+          type: string
+          example: Vietnam
+        salesRepEmployeeNumber:
+          type: string
+          example: 4
+        creditLimit:
+          type: string
+          example: null
+        createdAt:
+          type: string
+          example: 2023-05-31T03:14:07.000
+        updatedAt:
+          type: string
+          example: 2023-05-31T07:31:39.000
+    CustomerReqBody:
+      type: object
+      properties:
+        customerNumber:
+          type: integer
+          format: int64
+          example: 1
+        customerName:
+          type: string
+          example: Minh Anh
+        contactLastName:
+          type: string
+          example: Nguyen Hoang
+        contactFirstName:
+          type: string
+          example: Minh Anh
+        phone:
+          type: string
+          example: "085339987812"
+        addressLine1:
+          type: string
+          example: Kim Chung, Hoai Duc , Ha Noi
+        addressLine2:
+          type: string
+          example: null
+        city:
+          type: string
+          example: Ha Noi
+        state:
+          type: string
+          example: null
+        postalCode:
+          type: string
+          example: null
+        country:
+          type: string
+          example: Vietnam
+        salesRepEmployeeNumber:
+          type: string
+          example: 4
+        creditLimit:
+          type: string
+          example: null
+    ApiResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Employee was deleted
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

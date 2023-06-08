@@ -9,7 +9,10 @@
     "build-babel": "babel ./ --out-dir build/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log",
     "build": "npm run build-babel",
     "prod": "npm run build && node ./build/server.js",
-    "dev": "nodemon --inspect ./server.js"
+    "dev": "nodemon --inspect ./server.js",
+    "pretty": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json}\"",
+    "lint": "eslint ./src --ext .js",
+    "lint:fix": "eslint ./src --ext .js --fix"
   },
   "keywords": [],
   "author": "",

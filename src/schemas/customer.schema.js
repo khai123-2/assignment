@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 const customerSchema = Joi.object({
   customerNumber: Joi.number().integer().positive(),

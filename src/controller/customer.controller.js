@@ -1,11 +1,11 @@
-const Customer = require("../models/customer.model");
-const Employee = require("../models/employee.model");
-const NotFoundError = require("../error/NotFoundError");
+const Customer = require('../models/customer.model');
+const Employee = require('../models/employee.model');
+const NotFoundError = require('../error/NotFoundError');
 const getAllCustomers = async (req, res, next) => {
   try {
     const userRole = req.user.Role.role;
     let customers;
-    if (userRole == "Staff") {
+    if (userRole == 'Staff') {
       const employeeNumber = req.user.employeeNumber;
       customers = await Customer.findAll({
         where: {
@@ -13,7 +13,7 @@ const getAllCustomers = async (req, res, next) => {
         },
       });
       return res.status(200).send({ data: customers });
-    } else if (userRole == "Leader") {
+    } else if (userRole == 'Leader') {
       const officeCodeUser = req.user.officeCode;
       customers = await Customer.findAll({
         include: {
@@ -39,7 +39,7 @@ const getCustomerById = async (req, res, next) => {
     const customerId = req.params.id;
     const userRole = req.user.Role.role;
     let customer = await Customer.findByPk(customerId);
-    if (userRole == "Staff") {
+    if (userRole == 'Staff') {
       const employeeNumber = req.user.employeeNumber;
       customer = await Customer.findOne({
         where: {
@@ -48,7 +48,7 @@ const getCustomerById = async (req, res, next) => {
         },
       });
     }
-    if (userRole == "Leader") {
+    if (userRole == 'Leader') {
       const officeCodeUser = req.user.officeCode;
       customer = await Customer.findByPk(customerId, {
         include: {
@@ -61,7 +61,7 @@ const getCustomerById = async (req, res, next) => {
     }
 
     if (!customer) {
-      throw new NotFoundError("Customer not found");
+      throw new NotFoundError('Customer not found');
     }
     return res.status(200).send({ data: customer });
   } catch (err) {
@@ -72,25 +72,20 @@ const createCustomer = async (req, res, next) => {
   try {
     const userRole = req.user.Role.role;
     const { salesRepEmployeeNumber } = req.body;
-    if (userRole == "Leader") {
+    if (userRole == 'Leader') {
       const employee = await Employee.findByPk(salesRepEmployeeNumber);
       if (!employee) {
-        throw new NotFoundError("Employee not found");
+        throw new NotFoundError('Employee not found');
       }
       if (employee.officeCode !== req.user.officeCode) {
-        throw new Error("Employee is not from the same office");
+        throw new Error('Employee is not from the same office');
       }
     }
-    if (
-      userRole === "Staff" &&
-      salesRepEmployeeNumber !== req.user.employeeNumber
-    ) {
-      throw new Error("Customer does not belong to the employee");
+    if (userRole === 'Staff' && salesRepEmployeeNumber !== req.user.employeeNumber) {
+      throw new Error('Customer does not belong to the employee');
     }
     const customer = await Customer.create(req.body);
-    return res
-      .status(201)
-      .send({ message: "Customer was created ", data: customer });
+    return res.status(201).send({ message: 'Customer was created ', data: customer });
   } catch (err) {
     next(err);
   }
@@ -102,20 +97,18 @@ const deleteCustomer = async (req, res, next) => {
     const userRole = req.user.Role.role;
     const customerFinder = await Customer.findByPk(customerId);
     if (!customerFinder) {
-      throw new NotFoundError("Customer not found");
+      throw new NotFoundError('Customer not found');
     }
-    if (userRole == "Leader") {
+    if (userRole == 'Leader') {
       const officeCodeUser = req.user.officeCode;
-      const employee = await Employee.findByPk(
-        customerFinder.salesRepEmployeeNumber
-      );
+      const employee = await Employee.findByPk(customerFinder.salesRepEmployeeNumber);
 
       if (employee.officeCode !== officeCodeUser) {
         throw new Error("is not from the same office's employee");
       }
     }
     await customerFinder.destroy();
-    return res.status(200).send({ message: "Customer was deleted" });
+    return res.status(200).send({ message: 'Customer was deleted' });
   } catch (err) {
     next(err);
   }
@@ -127,13 +120,11 @@ const updateCustomer = async (req, res, next) => {
     const userRole = req.user.Role.role;
     const customerFinder = await Customer.findByPk(customerId);
     if (!customerFinder) {
-      throw new NotFoundError("Customer not found");
+      throw new NotFoundError('Customer not found');
     }
-    if (userRole === "Leader") {
+    if (userRole === 'Leader') {
       const officeCodeUser = req.user.officeCode;
-      const employee = await Employee.findByPk(
-        customerFinder.salesRepEmployeeNumber
-      );
+      const employee = await Employee.findByPk(customerFinder.salesRepEmployeeNumber);
 
       if (employee.officeCode !== officeCodeUser) {
         throw new Error("Customer is not from the same office's employee");
@@ -142,9 +133,7 @@ const updateCustomer = async (req, res, next) => {
     const data = req.body;
     customerFinder.set(data);
     await customerFinder.save();
-    return res
-      .status(200)
-      .send({ message: "Customer was updated", data: customerFinder });
+    return res.status(200).send({ message: 'Customer was updated', data: customerFinder });
   } catch (err) {
     next(err);
   }

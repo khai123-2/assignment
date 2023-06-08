@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const logSchema = new Schema(
@@ -16,6 +16,6 @@ const logSchema = new Schema(
       required: false,
     },
   },
-  { timestamps: { createdAt: "createdAt", updatedAt: false } }
+  { timestamps: { createdAt: 'createdAt', updatedAt: false } },
 );
-module.exports = mongoose.model("Log", logSchema);
+module.exports = mongoose.model('Log', logSchema);

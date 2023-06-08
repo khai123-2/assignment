@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 const employeeSchema = Joi.object({
   employeeNumber: Joi.number().integer().positive(),
@@ -6,7 +6,7 @@ const employeeSchema = Joi.object({
   firstName: Joi.string().min(3).max(50).required(),
   extension: Joi.string().max(50).required(),
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net", "vn"] } })
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'vn'] } })
     .max(100)
     .required(),
   officeCode: Joi.string().alphanum().max(10).required(),

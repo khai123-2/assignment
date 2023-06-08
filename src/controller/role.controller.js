@@ -1,5 +1,5 @@
-const Role = require("../models/role.model");
-const roleSchema = require("../schemas/role.schema");
+const Role = require('../models/role.model');
+const roleSchema = require('../schemas/role.schema');
 const getAllRoles = async (_req, res) => {
   try {
     const roles = await Role.findAll();
@@ -16,7 +16,7 @@ const createRole = async (req, res) => {
       return res.status(400).send({ error: error.details[0].message });
     }
     const role = await Role.create(value);
-    return res.status(201).send({ message: "Role was created ", data: role });
+    return res.status(201).send({ message: 'Role was created ', data: role });
   } catch (err) {
     if (err.name) {
       const error = err.errors[0].message;

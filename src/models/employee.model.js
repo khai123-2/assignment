@@ -1,7 +1,7 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/instance");
-const ValidationError = require("../error/ValidationError");
-const Employee = sequelize.define("Employee", {
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/instance');
+const ValidationError = require('../error/ValidationError');
+const Employee = sequelize.define('Employee', {
   employeeNumber: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -43,10 +43,8 @@ const Employee = sequelize.define("Employee", {
 });
 
 Employee.beforeSave((employee) => {
-  if (employee.changed("firstName") || employee.changed("lastName")) {
-    throw new ValidationError(
-      "lastName field or firstName field  cannot be updated."
-    );
+  if (employee.changed('firstName') || employee.changed('lastName')) {
+    throw new ValidationError('lastName field or firstName field  cannot be updated.');
   }
 });
 

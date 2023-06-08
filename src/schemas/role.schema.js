@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 const roleSchema = Joi.object({
   id: Joi.number().integer().positive(),

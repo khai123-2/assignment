@@ -1,0 +1,42 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": ["eslint:recommended","prettier"],
+    "plugins": ["prettier"],
+    "overrides": [
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "ignorePatterns":[".eslintrc.json"],
+    "rules": {
+        "no-unused-vars": [
+            "warn",
+            { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+        ],
+        "prettier/prettier": ["warn",{
+            "endOfLine":"auto",
+            "arrowParens": "always",
+            "bracketSameLine": false,
+            "bracketSpacing": true,
+            "embeddedLanguageFormatting": "auto",
+            "htmlWhitespaceSensitivity": "css",
+            "insertPragma": false,
+            "jsxSingleQuote": false,
+            "printWidth": 120,
+            "proseWrap": "preserve",
+            "quoteProps": "as-needed",
+            "requirePragma": false,
+            "semi": true,
+            "singleQuote": true,
+            "tabWidth": 2,
+            "trailingComma": "all",
+            "useTabs": false,
+            "vueIndentScriptAndStyle": false
+        }]
+    }
+}

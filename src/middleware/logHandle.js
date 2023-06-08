@@ -1,9 +1,9 @@
-const logger = require("../logging/logger");
-const Log = require("../models/log.model");
+const logger = require('../logging/logger');
+const Log = require('../models/log.model');
 const logHandle = async (req, res, next) => {
   const { url, method } = req;
   const reqData = {
-    level: "info",
+    level: 'info',
     message: {
       header: JSON.stringify(req.headers),
       body: req.body,
@@ -14,15 +14,15 @@ const logHandle = async (req, res, next) => {
 
   await Log.create(reqData);
   logger.info({
-    message: "Request",
+    message: 'Request',
     url,
     method,
   });
 
-  res.on("finish", async () => {
+  res.on('finish', async () => {
     const resData = {
-      level: "info",
-      user: req.user?.lastName || "Unknown user",
+      level: 'info',
+      user: req.user?.lastName || 'Unknown user',
       message: {
         statusCode: res?.statusCode,
         method,
@@ -31,7 +31,7 @@ const logHandle = async (req, res, next) => {
     };
     await Log.create(resData);
     logger.info({
-      message: "Response",
+      message: 'Response',
       method,
       url,
       statusCode: res.statusCode,

@@ -1,7 +1,7 @@
-const sequelize = require("../config/instance");
-const { DataTypes } = require("sequelize");
-const bcrypt = require("bcrypt");
-const User = sequelize.define("User", {
+const sequelize = require('../config/instance');
+const { DataTypes } = require('sequelize');
+const bcrypt = require('bcrypt');
+const User = sequelize.define('User', {
   username: {
     type: DataTypes.STRING(20),
     allowNull: false,
@@ -15,7 +15,7 @@ const User = sequelize.define("User", {
     type: DataTypes.INTEGER,
     allowNull: false,
     unique: {
-      msg: "This account user has already created",
+      msg: 'This account user has already created',
     },
   },
 });

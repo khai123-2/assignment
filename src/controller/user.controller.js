@@ -1,7 +1,7 @@
-const User = require('../database/models/user.model');
-const userSchema = require('../database/schemas/user.schema');
+const User = require('@/database/models/user.model');
+const userSchema = require('@/database/schemas/user.schema');
 const bcrypt = require('bcrypt');
-const { generateToken } = require('../auth/auth.method');
+const { generateToken } = require('@/auth/auth.method');
 
 const getAllUsers = async (_req, res) => {
   try {

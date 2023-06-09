@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../config/instance');
+const sequelize = require('@/config/instance');
 const Role = sequelize.define('Role', {
   id: {
     type: DataTypes.INTEGER,

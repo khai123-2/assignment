@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../config/instance');
-const { ValidationError } = require('../../error/errorsException');
+const sequelize = require('@/config/instance');
+const { ValidationError } = require('@/error/errorsException');
 const Employee = sequelize.define('Employee', {
   employeeNumber: {
     type: DataTypes.INTEGER,

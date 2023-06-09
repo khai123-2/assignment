@@ -1,9 +1,9 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const User = require('../database/models/user.model');
-const Employee = require('../database/models/employee.model');
-const Role = require('../database/models/role.model');
-const { UnauthorizedError } = require('../error/errorsException');
+const User = require('@/database/models/user.model');
+const Employee = require('@/database/models/employee.model');
+const Role = require('@/database/models/role.model');
+const { UnauthorizedError } = require('@/error/errorsException');
 
 module.exports = async (req, res, next) => {
   try {

@@ -1,6 +1,6 @@
-const Customer = require('../database/models/customer.model');
-const Employee = require('../database/models/employee.model');
-const { NotFoundError } = require('../error/errorsException');
+const Customer = require('@/database/models/customer.model');
+const Employee = require('@/database/models/employee.model');
+const { NotFoundError } = require('@/error/errorsException');
 const getAllCustomers = async (req, res, next) => {
   try {
     const userRole = req.user.Role.role;

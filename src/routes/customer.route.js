@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const customerController = require('../controller/customer.controller');
-const isAuth = require('../middleware/isAuth');
-const checkPermissions = require('../middleware/checkPermission');
-const validate = require('../middleware/validate');
-const CustomerSchema = require('../database/schemas/customer.schema');
+const customerController = require('@/controller/customer.controller');
+const isAuth = require('@/middleware/isAuth');
+const checkPermissions = require('@/middleware/checkPermission');
+const validate = require('@/middleware/validate');
+const CustomerSchema = require('@/database/schemas/customer.schema');
 router.get(
   '/',
   isAuth,

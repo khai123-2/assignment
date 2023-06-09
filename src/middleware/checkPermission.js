@@ -1,4 +1,4 @@
-const UnauthorizedError = require('../error/UnauthorizedError');
+const { UnauthorizedError } = require('../error/errorsException');
 
 const checkPermissions = (validPermissions) => {
   return (req, _res, next) => {

@@ -1,5 +1,5 @@
-const Role = require('../models/role.model');
-const roleSchema = require('../schemas/role.schema');
+const Role = require('../database/models/role.model');
+const roleSchema = require('../database/schemas/role.schema');
 const getAllRoles = async (_req, res) => {
   try {
     const roles = await Role.findAll();

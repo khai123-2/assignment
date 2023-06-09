@@ -1,4 +1,4 @@
-const ValidationError = require('../error/ValidationError');
+const { ValidationError } = require('../error/errorsException');
 const validate = (schema) => {
   return (req, _res, next) => {
     try {

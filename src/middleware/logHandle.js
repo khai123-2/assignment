@@ -1,5 +1,5 @@
 const logger = require('../logging/logger');
-const Log = require('../models/log.model');
+const Log = require('../database/models/log.model');
 const logHandle = async (req, res, next) => {
   const { url, method } = req;
   const reqData = {

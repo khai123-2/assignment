@@ -4,7 +4,7 @@ const customerController = require('../controller/customer.controller');
 const isAuth = require('../middleware/isAuth');
 const checkPermissions = require('../middleware/checkPermission');
 const validate = require('../middleware/validate');
-const CustomerSchema = require('../schemas/customer.schema');
+const CustomerSchema = require('../database/schemas/customer.schema');
 router.get(
   '/',
   isAuth,

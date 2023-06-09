@@ -1,4 +1,4 @@
-const sequelize = require('../config/instance');
+const sequelize = require('../../config/instance');
 const { DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 const User = sequelize.define('User', {

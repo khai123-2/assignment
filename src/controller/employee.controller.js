@@ -1,5 +1,5 @@
-const Employee = require('../models/employee.model');
-const NotFoundError = require('../error/NotFoundError');
+const Employee = require('../database/models/employee.model');
+const { NotFoundError } = require('../error/errorsException');
 const getAllEmployees = async (_req, res, next) => {
   try {
     const employees = await Employee.findAll();

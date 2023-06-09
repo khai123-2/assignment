@@ -1,5 +1,5 @@
 const logger = require('../logging/logger');
-const Log = require('../models/log.model');
+const Log = require('../database/models/log.model');
 const errorHandler = async (err, req, res, _next) => {
   console.log('ERROR LOG ', new Date().toLocaleString());
   console.log('Request:', req.method, req.originalUrl);

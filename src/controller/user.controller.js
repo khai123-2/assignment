@@ -1,5 +1,5 @@
-const User = require('../models/user.model');
-const userSchema = require('../schemas/user.schema');
+const User = require('../database/models/user.model');
+const userSchema = require('../database/schemas/user.schema');
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../auth/auth.method');
 

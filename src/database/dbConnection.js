@@ -1,4 +1,4 @@
-const sequelize = require('./instance');
+const sequelize = require('../config/instance');
 
 async function dbConnection() {
   try {

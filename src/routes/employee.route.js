@@ -2,7 +2,7 @@ const express = require('express');
 const employeeController = require('../controller/employee.controller');
 const isAuth = require('../middleware/isAuth');
 const checkPermissions = require('../middleware/checkPermission');
-const employeeSchema = require('../schemas/employee.schema');
+const employeeSchema = require('../database/schemas/employee.schema');
 const validate = require('../middleware/validate');
 const router = express.Router();
 

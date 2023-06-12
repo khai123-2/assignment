@@ -7,6 +7,7 @@ const employeeSchema = Joi.object({
   extension: Joi.string().max(50).required(),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'vn'] } })
+    .min(10)
     .max(100)
     .required(),
   officeCode: Joi.string().alphanum().max(10).required(),

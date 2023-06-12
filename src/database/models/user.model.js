@@ -1,5 +1,6 @@
 const sequelize = require('@/config/instance');
 const { DataTypes } = require('sequelize');
+const { ValidationError } = require('@/error/errorsException');
 const bcrypt = require('bcrypt');
 const User = sequelize.define('User', {
   username: {
@@ -14,19 +15,16 @@ const User = sequelize.define('User', {
   employeeNumber: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    unique: {
-      msg: 'This account user has already created',
-    },
   },
 });
 User.beforeCreate(async (user) => {
-  try {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(user.password, salt);
-    user.password = hashedPassword;
-  } catch (err) {
-    console.log(err);
+  const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,100}$/;
+  if (!passwordRegex.test(user.password)) {
+    throw new ValidationError('Password must contain at least one number and one special character');
   }
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(user.password, salt);
+  user.password = hashedPassword;
 });
 
 module.exports = User;

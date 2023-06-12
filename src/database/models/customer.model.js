@@ -56,4 +56,18 @@ const Customer = sequelize.define('Customer', {
     allowNull: true,
   },
 });
+
+Customer.beforeValidate(async (customer) => {
+  const fieldsValidation = ['customerNumber'];
+  fieldsValidation.forEach((fieldName) => {
+    if (customer.changed(fieldName) && customer.previous(fieldName)) {
+      throw new Error(`${fieldName} field cannot be updated.`);
+    }
+  });
+  //Check customerNumber has not yet existed
+  const foundCustomer = await Customer.findByPk(customer.customerNumber);
+  if (foundCustomer) {
+    throw new Error('Customer number must be unique');
+  }
+});
 module.exports = Customer;

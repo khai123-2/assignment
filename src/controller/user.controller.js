@@ -3,32 +3,24 @@ const userSchema = require('@/database/schemas/user.schema');
 const bcrypt = require('bcrypt');
 const { generateToken } = require('@/auth/auth.method');
 
-const getAllUsers = async (_req, res) => {
+const getAllUsers = async (_req, res, next) => {
   try {
     const users = await User.findAll();
     return res.status(200).send({ data: users });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    next(err);
   }
 };
-const registerUser = async (req, res) => {
+const registerUser = async (req, res, next) => {
   try {
-    const { error, value } = userSchema.validate(req.body);
-    if (error) {
-      return res.status(400).json({ error: error.details[0].message });
-    }
-    const user = await User.create(value);
+    const user = await User.create(req.body);
     return res.status(201).send({ message: 'User was created', data: user });
   } catch (err) {
-    if (err.name) {
-      return res.status(500).json({ err });
-    } else {
-      return res.status(500).json({ error: err.message });
-    }
+    next(err);
   }
 };
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const userFinder = await User.findByPk(username);
@@ -54,7 +46,7 @@ const login = async (req, res) => {
       accessToken,
     });
   } catch (err) {
-    return res.status(500).json({ err: err.message });
+    next(err);
   }
 };
 

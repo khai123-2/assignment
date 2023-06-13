@@ -1,8 +1,6 @@
 const User = require('@/database/models/user.model');
-const userSchema = require('@/database/schemas/user.schema');
 const bcrypt = require('bcrypt');
 const { generateToken } = require('@/auth/auth.method');
-
 const getAllUsers = async (_req, res, next) => {
   try {
     const users = await User.findAll();

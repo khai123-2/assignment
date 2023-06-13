@@ -4,6 +4,7 @@ const db = require('./src/database/dbConnection');
 const sequelize = require('./src/config/instance');
 const route = require('./src/routes');
 const Role = require('./src/database/models/role.model');
+const Office = require('./src/database/models/office.model');
 const Employee = require('./src/database/models/employee.model');
 const Customer = require('./src/database/models/customer.model');
 const User = require('./src/database/models/user.model');
@@ -39,6 +40,15 @@ Employee.belongsTo(Role, {
 Role.hasMany(Employee, {
   foreignKey: 'roleId',
 });
+
+Employee.belongsTo(Office, {
+  foreignKey: 'officeCode',
+});
+
+Office.hasMany(Employee, {
+  foreignKey: 'officeCode',
+});
+
 sequelize
   .sync()
   .then(() => {

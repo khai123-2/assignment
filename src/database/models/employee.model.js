@@ -6,7 +6,6 @@ const Employee = sequelize.define('Employee', {
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
-    unique: true,
   },
   lastName: {
     type: DataTypes.STRING(50),
@@ -42,18 +41,20 @@ const Employee = sequelize.define('Employee', {
   },
 });
 
-Employee.beforeValidate(async (employee) => {
+Employee.beforeCreate(async (employee) => {
+  //Check employeeNumber has not yet existed
+  const foundEmployee = await Employee.findByPk(employee.employeeNumber);
+  if (foundEmployee) {
+    throw new Error('Employee number must be unique');
+  }
+});
+Employee.beforeUpdate(async (employee) => {
   const fieldsValidation = ['lastName', 'firstName', 'employeeNumber'];
   fieldsValidation.forEach((fieldName) => {
     if (employee.changed(fieldName) && employee.previous(fieldName)) {
       throw new Error(`${fieldName} field cannot be updated.`);
     }
   });
-  //Check employeeNumber has not yet existed
-  const foundEmployee = await Employee.findByPk(employee.employeeNumber);
-  if (foundEmployee) {
-    throw new Error('Employee number must be unique');
-  }
 });
 
 module.exports = Employee;

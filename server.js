@@ -48,7 +48,6 @@ Employee.belongsTo(Office, {
 Office.hasMany(Employee, {
   foreignKey: 'officeCode',
 });
-
 sequelize
   .sync()
   .then(() => {
@@ -64,3 +63,5 @@ route(app);
 app.listen(port, () => {
   console.log(`Server is listening on port: ${port}`);
 });
+
+module.exports = app;

@@ -1,8 +1,8 @@
 require('dotenv').config();
-const jwt = require('jsonwebtoken');
 const User = require('@/database/models/user.model');
 const Employee = require('@/database/models/employee.model');
 const Role = require('@/database/models/role.model');
+const { verifyToken } = require('@/auth/auth.method');
 const { UnauthorizedError } = require('@/error/errorsException');
 
 module.exports = async (req, res, next) => {
@@ -13,7 +13,7 @@ module.exports = async (req, res, next) => {
       throw new UnauthorizedError('Token not found');
     }
     const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
-    const verified = jwt.verify(accessTokenFromHeader, accessTokenSecret);
+    const verified = verifyToken(accessTokenFromHeader, accessTokenSecret);
     if (!verified) {
       throw new UnauthorizedError("Token doesn't exists");
     }

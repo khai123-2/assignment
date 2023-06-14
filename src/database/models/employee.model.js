@@ -42,7 +42,6 @@ const Employee = sequelize.define('Employee', {
 });
 
 Employee.beforeCreate(async (employee) => {
-  //Check employeeNumber has not yet existed
   const foundEmployee = await Employee.findByPk(employee.employeeNumber);
   if (foundEmployee) {
     throw new Error('Employee number must be unique');

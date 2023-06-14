@@ -58,7 +58,6 @@ const Customer = sequelize.define('Customer', {
 });
 
 Customer.beforeCreate(async (customer) => {
-  //Check customerNumber has not yet existed
   const foundCustomer = await Customer.findByPk(customer.customerNumber);
   if (foundCustomer) {
     throw new Error('Customer number must be unique');

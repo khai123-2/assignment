@@ -4,10 +4,13 @@
     "package": "./package.json",
     "reporter": "spec",
     "timeout": 5000,
-    "ui": "bdd",
-    "watch-files": ["lib/**/*.js", "test/**/*.js"],
-    "watch-ignore": ["lib/vendor"],
-    "require":["register.js"]
+    "require":["register.js"],
+    "recursive": true,
+    "exit": true,
+    "spec": ["test/**/*.js"],
+    "exclude": [
+      "test/integration/**/*.js"
+    ]
   }
 
   

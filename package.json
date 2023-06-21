@@ -17,7 +17,7 @@
   },
   "nyc": {
     "include": "src",
-    "exclude": "test"
+    "exclude": ["test","src/database/models"]
   },
   "keywords": [],
   "author": "",

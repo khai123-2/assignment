@@ -24,7 +24,7 @@ const getEmployeeById = async (req, res, next) => {
 const createEmployee = async (req, res, next) => {
   try {
     const employee = await Employee.create(req.body);
-    return res.status(201).send({ message: 'Employee was created ', data: employee });
+    return res.status(201).send({ message: 'Employee was created', data: employee });
   } catch (err) {
     next(err);
   }

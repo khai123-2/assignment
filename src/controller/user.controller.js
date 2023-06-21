@@ -2,9 +2,23 @@ const User = require('@/database/models/user.model');
 const bcrypt = require('bcrypt');
 const authMethod = require('@/auth/auth.method');
 const { NotFoundError, ValidationError } = require('@/error/errorsException');
-
+const Employee = require('@/database/models/employee.model');
 const registerUser = async (req, res, next) => {
   try {
+    const { employeeNumber, username } = req.body;
+    const foundEmployee = await Employee.findByPk(employeeNumber);
+    if (!foundEmployee) {
+      throw new NotFoundError('Employee not found');
+    }
+    const foundUser = await User.findByPk(username);
+    if (foundUser) {
+      throw new Error('Username already exists');
+    }
+    const foundAccount = await User.findOne({ where: { employeeNumber: employeeNumber } });
+    if (foundAccount) {
+      throw new Error('User have been created');
+    }
+
     const user = await User.create(req.body);
     return res.status(201).send({ message: 'User was created', data: user });
   } catch (err) {

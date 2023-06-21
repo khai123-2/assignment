@@ -1,6 +1,6 @@
 const Customer = require('@/database/models/customer.model');
 const Employee = require('@/database/models/employee.model');
-const { NotFoundError } = require('@/error/errorsException');
+const { NotFoundError, UnauthorizedError } = require('@/error/errorsException');
 const getAllCustomers = async (req, res, next) => {
   try {
     const userRole = req.user.Role.role;
@@ -38,7 +38,7 @@ const getCustomerById = async (req, res, next) => {
   try {
     const customerId = req.params.id;
     const userRole = req.user.Role.role;
-    let customer = await Customer.findByPk(customerId);
+    let customer = null;
     if (userRole == 'Staff') {
       const employeeNumber = req.user.employeeNumber;
       customer = await Customer.findOne({
@@ -47,8 +47,7 @@ const getCustomerById = async (req, res, next) => {
           salesRepEmployeeNumber: employeeNumber,
         },
       });
-    }
-    if (userRole == 'Leader') {
+    } else if (userRole == 'Leader') {
       const officeCodeUser = req.user.officeCode;
       customer = await Customer.findByPk(customerId, {
         include: {
@@ -58,6 +57,8 @@ const getCustomerById = async (req, res, next) => {
           },
         },
       });
+    } else {
+      customer = await Customer.findByPk(customerId);
     }
 
     if (!customer) {
@@ -78,14 +79,14 @@ const createCustomer = async (req, res, next) => {
         throw new NotFoundError('Employee not found');
       }
       if (employee.officeCode !== req.user.officeCode) {
-        throw new Error('Employee is not from the same office');
+        throw new UnauthorizedError('Employee is not from the same office');
       }
     }
     if (userRole === 'Staff' && salesRepEmployeeNumber !== req.user.employeeNumber) {
-      throw new Error('Customer does not belong to the employee');
+      throw new UnauthorizedError('Customer does not belong to the employee');
     }
     const customer = await Customer.create(req.body);
-    return res.status(201).send({ message: 'Customer was created ', data: customer });
+    return res.status(201).send({ message: 'Customer was created', data: customer });
   } catch (err) {
     next(err);
   }
@@ -104,7 +105,7 @@ const deleteCustomer = async (req, res, next) => {
       const employee = await Employee.findByPk(customerFinder.salesRepEmployeeNumber);
 
       if (employee.officeCode !== officeCodeUser) {
-        throw new Error("is not from the same office's employee");
+        throw new UnauthorizedError("Customer is not from the same office's employee");
       }
     }
     await customerFinder.destroy();
@@ -127,7 +128,7 @@ const updateCustomer = async (req, res, next) => {
       const employee = await Employee.findByPk(customerFinder.salesRepEmployeeNumber);
 
       if (employee.officeCode !== officeCodeUser) {
-        throw new Error("Customer is not from the same office's employee");
+        throw new UnauthorizedError("Customer is not from the same office's employee");
       }
     }
     const data = req.body;

@@ -10,8 +10,12 @@ const generateToken = (payload) => {
 };
 
 const verifyToken = (accessToken, tokenSecret) => {
-  const verifyData = jwt.verify(accessToken, tokenSecret);
-  return verifyData;
+  try {
+    const verifyData = jwt.verify(accessToken, tokenSecret);
+    return { error: null, verifyData };
+  } catch (error) {
+    return { error, verifyData: {} };
+  }
 };
 
 module.exports = {
